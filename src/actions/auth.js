@@ -1,6 +1,7 @@
-import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAILED } from './actionTypes';
+import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAILED, AUTHENTICATE_USER, LOG_OUT } from './actionTypes';
 import {APIUrls} from '../helpers/url';
 import {getFormBody} from '../helpers/utils';
+import { func } from 'prop-types';
 
 // LOGIN
 export function login (email, password) {
@@ -90,5 +91,18 @@ export function signupSuccessful (user) {
     return {
         type: SIGNUP_SUCCESS,
         user,
+    }
+}
+
+export function authenticateUser (user) {
+    return {
+        type: AUTHENTICATE_USER,
+        user
+    }
+}
+
+export function logout (user) {
+    return {
+        type: LOG_OUT 
     }
 }

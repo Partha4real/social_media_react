@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import {fetchPosts} from '../actions/posts';
 import {Home, Navbar, Page404, Login, Signup} from './';
+import jwtDecode from 'jwt-decode';
+import {authenticateUser } from '../actions/auth';
 
 // const Login = () => <div>Login</div>
 // const Signup = () => <div>Signup</div>
@@ -19,6 +21,18 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(fetchPosts());
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    if (token) {
+      const user = jwtDecode(token);
+      console.log(user)
+      this.props.dispatch(authenticateUser({
+        email: user.email,
+        _id: user._id,
+        name: user.name
+      }))
+    }
   }
   
 
