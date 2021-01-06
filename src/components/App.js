@@ -8,6 +8,8 @@ import {fetchPosts} from '../actions/posts';
 import {Home, Navbar, Page404, Login, Signup, Settings} from './';
 import jwtDecode from 'jwt-decode';
 import {authenticateUser } from '../actions/auth';
+import {getAuthTokenFromLocalStorage} from '../helpers/utils';
+
 
 // const Login = () => <div>Login</div>
 // const Signup = () => <div>Signup</div>
@@ -32,7 +34,7 @@ const PrivateRoute = (privateRouteProps) => {
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
-    const token = localStorage.getItem('token');
+    const token = getAuthTokenFromLocalStorage();
     console.log(token);
 
     if (token) {
@@ -73,6 +75,7 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <PrivateRoute path="/settings" component={Settings} isLoggedIn={auth.isLoggedIn} />
+            <PrivateRoute path="/user" component={UserProfile} isLoggedIn={auth.isLoggedIn} />
             <Route component={Page404} />
           </Switch>
         </div>
