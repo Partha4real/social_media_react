@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { CreatePost } from './';
 
-class PostList extends Component {
+class Post extends Component {
     render() {
-        const { posts } = this.props;
         return (
-        <div className="posts-list">
-            <CreatePost />
-            {posts.map((post) => (
+            <div className="posts-list">
             <div className="post-wrapper" key={post._id}>
                 <div className="post-header">
                 <div className="post-avatar">
@@ -60,13 +54,9 @@ class PostList extends Component {
                 </div>
                 </div>
             </div>
-            ))}
         </div>
         );
     }
 }
 
-PostList.propTypes = {
-    posts: PropTypes.array.isRequired,
-}
-export default PostList;
+export default Post;
