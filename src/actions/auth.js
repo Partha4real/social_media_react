@@ -1,4 +1,4 @@
-import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAILED, AUTHENTICATE_USER, LOG_OUT } from './actionTypes';
+import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAILED, AUTHENTICATE_USER, LOG_OUT, CLEAR_AUTH_STATE } from './actionTypes';
 import {APIUrls} from '../helpers/url';
 import {getFormBody} from '../helpers/utils';
 import { func } from 'prop-types';
@@ -104,5 +104,11 @@ export function authenticateUser (user) {
 export function logout (user) {
     return {
         type: LOG_OUT 
+    }
+}
+
+export function clearAuthState () {
+    return{
+        type: CLEAR_AUTH_STATE
     }
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch, Redirect} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 
 import {fetchPosts} from '../actions/posts';
-import {Home, Navbar, Page404, Login, Signup} from './';
+import {Home, Navbar, Page404, Login, Signup, Settings} from './';
 import jwtDecode from 'jwt-decode';
 import {authenticateUser } from '../actions/auth';
 
@@ -16,9 +16,20 @@ import {authenticateUser } from '../actions/auth';
 //   return <div>Home</div>
 // }
 
+// const Settings= () => <div>Settings</div>
+const PrivateRoute = (privateRouteProps) => {
+  const {isLoggedIn, path, component: Component} = privateRouteProps;
+  return <Route path={path} render={(props)=> {
+    return isLoggedIn ? <Component {...props} /> : <Redirect to={{
+      pathname: '/login',
+      state: {
+        from: props.location,
+      }
+    }} />
+  }} />
+}
 
 class App extends React.Component {
-
   componentDidMount() {
     this.props.dispatch(fetchPosts());
     const token = localStorage.getItem('token');
@@ -38,7 +49,7 @@ class App extends React.Component {
 
   render() {
     //console.log('Props', this.props);
-    const {posts} = this.props;
+    const {posts, auth} = this.props;
     return (
       <Router>      
         <div>
@@ -57,10 +68,11 @@ class App extends React.Component {
           </ul> */}
           <Switch>
             <Route exact={true} path="/" render={(props) => {
-              return <Home {...props} posts={posts} />
+              return <Home {...props} posts={posts} />     // we are passing props to pass the default props of the Route like location, history,etc
             }} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <PrivateRoute path="/settings" component={Settings} isLoggedIn={auth.isLoggedIn} />
             <Route component={Page404} />
           </Switch>
         </div>
@@ -72,7 +84,8 @@ class App extends React.Component {
 
 function mapStateToProps (state) {   // we are basicall mapping all our redux state to our store
   return {
-    posts: state.posts
+    posts: state.posts,
+    auth: state.auth
   }
 }
 
