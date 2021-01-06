@@ -3,15 +3,21 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 import {logout } from '../actions/auth';
+import { searchUsers } from '../actions/search';
 
 
 class Navbar extends React.Component {
     logout = () => {
         localStorage.removeItem('token');
         this.props.dispatch(logout());
-    } 
+    };
+    
+    handleSearch = (e) => {
+        const searchText = e.target.value;
+        this.props.dispatch(searchUsers(searchText));
+    }
     render() {
-        const {auth} = this.props;
+        const {auth, results} = this.props;
         return (
             <div>
                 <nav className="nav">
@@ -22,20 +28,23 @@ class Navbar extends React.Component {
                     </div>
                     <div className="search-container">
                         <img className="search-icon" src="https://www.flaticon.com/svg/static/icons/svg/622/622669.svg"  alt="search-icon" />
-                        <input placeholder="Search" />
-    
-                        <div className="search-results">
-                        <ul>
-                            <li className="search-results-row">
-                            <img src="https://www.flaticon.com/svg/static/icons/svg/847/847969.svg"  alt="user-dp" />
-                            <span>Partha Sarathi</span>
-                            </li>
-                            <li className="search-results-row">
-                            <img src="https://www.flaticon.com/svg/static/icons/svg/847/847969.svg"  alt="user-dp" />
-                            <span>Partha Sarathi</span>
-                            </li>
-                        </ul>
-                        </div>
+                        <input placeholder="Search" onChange={this.handleSearch} />
+
+                        {results.length > 0 && (
+                            <div className="search-results">
+                                <ul>
+                                    {results.map((user) => (
+                                        <Link to={`/user/${user._id}`}>
+                                            <li className="search-results-row" key={user._id}>
+                                                <img src="https://www.flaticon.com/svg/static/icons/svg/847/847969.svg"  alt="user-dp" />
+                                                <span>{user.name}</span>
+                                            </li>
+                                        </Link>
+                                    ))}
+                                    
+                                </ul>
+                            </div>
+                        )}
                     </div>
                     <div className="right-nav">
                         {auth.isLoggedIn &&(
@@ -69,7 +78,8 @@ class Navbar extends React.Component {
 
 function mapStateToProps (state) {   // we are basicall mapping all our redux state to our store
     return {
-      auth: state.auth
+      auth: state.auth,
+      results: state.search.results
     }
 }
 
