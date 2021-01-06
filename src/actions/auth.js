@@ -1,7 +1,6 @@
 import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, SIGNUP_START, SIGNUP_SUCCESS, SIGNUP_FAILED, AUTHENTICATE_USER, LOG_OUT, CLEAR_AUTH_STATE, EDIT_USER_SUCCESSFUL, EDIT_USER_FAILED } from './actionTypes';
 import {APIUrls} from '../helpers/url';
 import {getFormBody, getAuthTokenFromLocalStorage} from '../helpers/utils';
-import { func } from 'prop-types';
 
 // LOGIN
 export function login (email, password) {

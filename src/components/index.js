@@ -1,4 +1,5 @@
 import PostsList from './PostsList';
+import Post from './Post';
 import App from './App';
 import Navbar from './Navbar';
 import Home from './Home';
@@ -10,4 +11,5 @@ import UserProfile from './UserProfile';
 import FriendsList from './FriendsList';
 import FriendsListItem from './FriendsListItem';
 import CreatePost from './CreatePost';
-export { PostsList, App, Navbar, Home, Page404, Login, Signup, Settings, UserProfile, FriendsList, FriendsListItem, CreatePost };
+import Comment from './Comment';
+export { PostsList, Post, App, Navbar, Home, Page404, Login, Signup, Settings, UserProfile, FriendsList, FriendsListItem, CreatePost, Comment };
