@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createComment } from '../actions/posts';
+import { addLike, createComment } from '../actions/posts';
 import {Comment} from './';
 
 class Post extends Component {
@@ -31,9 +31,15 @@ class Post extends Component {
         console.log(this.state.comment)
     };
 
+    handleLikePost = () => {
+        const {post, user} = this.props;
+        this.props.dispatch(addLike(post._id, 'Post', user._id))
+    }
+
     render() {
-        const {post} = this.props;
+        const {post, user} = this.props;
         const {comment} = this.state;
+        const isPostLikedByUser = post.likes.includes(user._id);
         return (
             <div className="post-wrapper" key={post._id}>
                 <div className="post-header">
@@ -52,13 +58,20 @@ class Post extends Component {
                     <div className="post-content">{post.content}</div>
 
                     <div className="post-actions">
-                        <div className="post-like">
-                            <img
-                                src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
-                                alt="likes-icon"
-                            />
+                        <button className="post-like no-btn" onClick={this.handleLikePost}>
+                            {isPostLikedByUser ? (
+                                <img
+                                    src="https://image.flaticon.com/icons/svg/1076/1076984.svg"
+                                    alt="likes-post"
+                                /> 
+                            ) : (
+                                <img
+                                    src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
+                                    alt="likes-icon"
+                                />
+                            )}
                             <span>{post.likes.length}</span>
-                        </div>
+                        </button>
 
                         <div className="post-comments-icon">
                             <img
@@ -95,6 +108,12 @@ class Post extends Component {
 
 Post.propTypes = {
     post: PropTypes.object.isRequired,
-  };
-  
-  export default connect()(Post);
+};
+
+function mapStateToProps ({auth}) {   // we are basicall mapping all our redux state to our store
+    return {
+        user: auth.user
+    }
+}
+
+export default connect(mapStateToProps)(Post);
