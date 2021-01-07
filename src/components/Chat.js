@@ -19,7 +19,7 @@ class Chat extends Component {
     }
   }
 
-  setupConnections = () => {
+  setupConnections = () => {  // in progress
     const socketConnection = this.socket;
     const self = this;
 
