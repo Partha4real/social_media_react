@@ -12,4 +12,23 @@ import FriendsList from './FriendsList';
 import FriendsListItem from './FriendsListItem';
 import CreatePost from './CreatePost';
 import Comment from './Comment';
-export { PostsList, Post, App, Navbar, Home, Page404, Login, Signup, Settings, UserProfile, FriendsList, FriendsListItem, CreatePost, Comment };
+import Chat from './Chat'
+
+
+export { 
+    PostsList, 
+    Post, 
+    App, 
+    Navbar, 
+    Home, 
+    Page404, 
+    Login, 
+    Signup, 
+    Settings, 
+    UserProfile, 
+    FriendsList, 
+    FriendsListItem, 
+    CreatePost, 
+    Comment,
+    Chat 
+};
